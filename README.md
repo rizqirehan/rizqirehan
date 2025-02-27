@@ -97,3 +97,62 @@ ufw allow 9090
 ````
 permitlogin no
 ````
+
+#**Deploy Ownlcloud Ke Publik**
+
+
+**1. Buat Akun Cloudflare**
+- Kunjungi [Cloudflare](https://www.cloudflare.com/) dan daftar/login ke akun Anda.  
+
+**2. Tambahkan Domain ke Cloudflare**
+1. **Masuk ke Dashboard Cloudflare**  
+2. Klik **"Add a Site"**  
+3. Masukkan nama domain Anda (misal: `example.com`)  
+4. Pilih paket **Free** (atau paket lain jika dibutuhkan)  
+5. Cloudflare akan menampilkan **nameserver baru** yang harus Anda gunakan  
+
+---
+**3. Update Nameserver di Registrar Domain**
+- Masuk ke **pengaturan domain** di penyedia domain Anda (misalnya, Namecheap, GoDaddy, atau Niagahoster).  
+- Ganti **nameserver lama** dengan **nameserver Cloudflare** yang diberikan.  
+- Tunggu beberapa menit hingga perubahan diterapkan.  
+
+**4. Upload Website ke Cloudflare Pages (Jika Tanpa Hosting)**
+1. **Masuk ke Dashboard Cloudflare**  
+2. Klik **"Pages"** > **"Create a Project"**  
+3. Pilih metode:
+   - **GitHub/GitLab Integration** → Hubungkan repository (misal: proyek React, Next.js, atau HTML)  
+   - **Upload Manual** → Jika hanya HTML/CSS/JS statis, pilih **"Direct Upload"** dan unggah file `index.html`  
+4. Konfigurasi build (jika pakai framework seperti Next.js atau Vue)  
+5. Klik **"Deploy"**  
+
+---
+
+**5. Konfigurasi DNS (Jika Pakai Hosting Sendiri)**
+Jika website di-host di server lain dan hanya ingin menggunakan Cloudflare sebagai CDN dan proteksi:
+1. Masuk ke **"DNS"** di Cloudflare  
+2. Tambahkan **A Record**:
+   - **Name:** `@` (atau `www` untuk subdomain)  
+   - **IPv4 Address:** IP server hosting Anda  
+   - **Proxy Status:** **"Proxied"** (agar Cloudflare aktif)  
+3. Simpan perubahan  
+
+**6. Aktifkan SSL/TLS**
+1. Masuk ke **SSL/TLS** di Cloudflare  
+2. Pilih mode **"Full (Strict)"** jika hosting memiliki sertifikat SSL, atau **"Flexible"** jika tidak  
+3. Website Anda sekarang menggunakan HTTPS dengan Cloudflare  
+
+**7. Konfigurasi Firewall & Keamanan (Opsional)**
+- **Security Level**: Atur ke **"High"** untuk proteksi ekstra dari serangan  
+- **DDoS Protection**: Aktifkan jika perlu  
+- **Page Rules**: Buat aturan khusus seperti redirect otomatis atau cache  
+
+**8. Cek Website**
+- Pastikan domain Anda sudah mengarah ke Cloudflare dengan mengecek menggunakan:  
+
+**|------------------------|**
+   **nslookup example.com**
+**|------------------------|**  
+
+
+
